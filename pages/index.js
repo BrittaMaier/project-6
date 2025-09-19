@@ -30,12 +30,12 @@ export default function Home() {
       <ListContainer>
         {data.map((place) => {
           return (
-            <li key={place.id}>
+            <li key={place._id}>
               <Card
                 name={place.name}
                 image={place.image}
                 location={place.location}
-                id={place.id}
+                id={place._id}
               />
             </li>
           );
