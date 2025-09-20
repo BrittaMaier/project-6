@@ -10,7 +10,17 @@ export default function EditPage() {
   const { data: place, isLoading, error } = useSWR(`/api/places/${id}`);
 
   async function editPlace(place) {
-    console.log("Editing place ...");
+    const response = await fetch(`/api/places/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(place),
+    });
+
+    if (response.ok) {
+      router.push("/");
+    }
   }
 
   if (!isReady || isLoading || error) return <h2>Loading...</h2>;
