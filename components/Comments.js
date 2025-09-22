@@ -38,7 +38,7 @@ export default function Comments({ locationName }) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const newComment = Object.fromEntries(formData);
-    const response = await fetch("/api/comments", {
+    const response = await fetch(`/api/comments/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
