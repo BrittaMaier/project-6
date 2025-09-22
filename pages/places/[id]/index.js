@@ -40,13 +40,28 @@ export default function DetailsPage() {
   if (!isReady || isLoading || error) return <h2>Loading...</h2>;
 
   async function deletePlace() {
-    const response = await fetch(`/api/places/${id}`, {
-      method: "DELETE",
-    });
+    const confirmed = confirm("are you sure you want to delete the place?");
+    if (confirmed) {
+      const response = await fetch(`/api/places/${id}`, {
+        method: "DELETE",
+      });
 
-    if (response.ok) {
-      router.push("/");
+      if (response.ok) {
+        router.push("/");
+      }
     }
+    /*OR:
+     if(!confirmed) return;
+     const response = await fetch(`/api/places/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        router.push("/");}
+
+    //In this case if the user doesn't confirm confirmed is false and return will force an exit of the function
+    // so, everything under it won't be run
+     */
   }
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -83,6 +98,7 @@ export default function DetailsPage() {
           Delete
         </StyledButton>
       </ButtonContainer>
+      <Comments />
     </>
   );
 }
