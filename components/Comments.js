@@ -31,13 +31,14 @@ export default function Comments({ locationName }) {
     error,
   } = useSWR(`/api/comments/${id}`);
 
-  if (!isReady || isLoading || error) return <h2>Loading...</h2>;
+  if (!isReady || isLoading) return <h2>Loading...</h2>;
+  if (error) return <h2>Failed to load comments</h2>;
 
   async function handleSubmitComment(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const newComment = Object.fromEntries(formData);
-    const response = await fetch("/api/places", {
+    const response = await fetch("/api/comments", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,6 +46,7 @@ export default function Comments({ locationName }) {
       body: JSON.stringify(newComment),
     });
     if (response.ok) {
+      event.target.reset();
       mutate();
     }
   }
@@ -52,7 +54,7 @@ export default function Comments({ locationName }) {
   async function handleDeleteComment(comment_id) {
     const confirmed = confirm("are you sure you want to delete the place?");
     if (confirmed) {
-      const response = await fetch(`/api/places/${id}`, {
+      const response = await fetch(`/api/comments/${comment_id}`, {
         method: "DELETE",
       });
 
